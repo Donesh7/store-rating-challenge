@@ -12,6 +12,8 @@ const parse=(s,b)=>{const r=s.safeParse(b);if(!r.success)throw fail(400,r.error.
 const id=v=>{if(!/^\d+$/.test(v)||!Number.isSafeInteger(Number(v))||Number(v)<1)throw fail(400,'Invalid ID');return Number(v);};
 export function createApp(db,{production=false,disableRateLimit=false}={}){
  const app=express();
+ // Vercel terminates HTTPS and forwards the client IP through its proxy.
+ if(process.env.VERCEL)app.set('trust proxy',1);
  app.use(helmet());app.use(express.json({limit:'16kb'}));app.use(cookieParser());
  // Same-origin JSON writes prevent cross-site form submissions and CSRF.
  app.use('/api',(req,res,next)=>{
