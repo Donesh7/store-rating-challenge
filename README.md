@@ -39,7 +39,19 @@ npm run dev
 
 React development server: http://localhost:5173; Express API: http://localhost:3001. Vite proxies API requests with cookies. For the built app, use `npm run build` then `npm start`. Unset `DEMO_DB` when switching from demo to standard PostgreSQL. In production set `NODE_ENV=production`, use HTTPS (secure cookies), a private database and unique account passwords. The server binds to localhost, suitable for a local run or reverse proxy.
 
-## Implemented requirements
+## Vercel deployment
+
+The React build is served as static assets and `api/index.js` runs the Express API as a Vercel Function. `vercel.json` keeps frontend and API on the same domain.
+
+1. Import this repository into Vercel with the Vite preset.
+2. Provision a hosted PostgreSQL database (for example Neon), and set `DATABASE_URL` in the project's encrypted environment variables. Use the provider's pooled connection URL with TLS enabled.
+3. Initialize that database once by running `npm run db:setup` with its `DATABASE_URL` and a unique `SEED_PASSWORD` in your local shell environment. Do not commit secrets. Seed accounts use the emails shown above but the password you choose here.
+4. Deploy to production. Do not set `DEMO_DB` on Vercel: local filesystem databases cannot persist reliably across function instances.
+5. Verify login, signup, ratings, and owner dashboard on the deployed URL.
+
+The local demo credentials are not automatically seeded into a hosted database. Auth rate limiting is per function instance; add a shared rate-limit store or platform firewall limits before high-volume production use.
+
+## Implemented functionality
 
 - **Administrator:** total users/stores/ratings, add users of all roles, add stores, filter users by name/email/address/role, filter stores by name/email/address, view user details including an owner's store average.
 - **Normal user:** registration, login/logout, password update, search stores by name/address, see average and own rating, submit or change a rating from 1–5.
