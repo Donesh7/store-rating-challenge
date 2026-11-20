@@ -100,4 +100,37 @@ Integration tests execute the real SQL schema against isolated in-memory Postgre
 
 ## Source layout
 
-`src/` React UI and responsive styles; `server/` Express API, validation, schema, database adapter and seed; `tests/` API integration tests. No credentials need to be committed. This challenge implementation returns complete filtered listings; a large production directory should add pagination.
+```text
+src/
+  main.jsx                     React entry point
+  App.jsx                      Session, navigation, and application state
+  pages/
+    Login.jsx                  Login page
+    Signup.jsx                 Registration page
+    AdminDashboard.jsx         Administrator overview
+    ManageUsers.jsx            Administrator user table
+    UserDashboard.jsx          Normal-user dashboard
+    DiscoverStores.jsx         Store directory
+    StoreOwnerDashboard.jsx    Owner ratings and average
+  components/                  Shared forms, sidebar, filters, cards, tables
+  services/api.js               HTTP client
+  utils/presentation.js        Role labels and rating formatting
+  style.css                    Responsive styles
+server/
+  app.js                       Express setup and route registration
+  routes/                      auth.js, admin.js, stores.js, owner.js
+  middleware/                  Authentication, authorization, request security, errors
+  services/sessions.js         Session creation and token hashing
+  utils/http.js                Validation and HTTP error helpers
+  validation.js                Input schemas
+  db.js                        PostgreSQL connection
+  schema.sql                   Relational schema and constraints
+  setup.js                     Database initialization and seed
+  index.js                     Local server entry point
+api/index.js                   Vercel function entry point
+tests/                         API integration and role-page rendering tests
+```
+
+The refactor preserves existing API URLs, CSS, database schema, and role permissions. `App.jsx` coordinates state and passes callbacks to role pages; shared components handle presentation. All protected routes still pass through authentication and server-side role authorization. Page-rendering tests cover all three dashboards, both authentication pages, and shared account forms in addition to the API integration tests.
+
+No credentials need to be committed. This challenge implementation returns complete filtered listings; a large production directory should add pagination.

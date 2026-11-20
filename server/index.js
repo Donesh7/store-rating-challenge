@@ -1,11 +1,16 @@
-import {resolve} from 'node:path';
-import express from 'express';
-import {connectDatabase} from './db.js';
-import {createApp} from './app.js';
-import {setup} from './setup.js';
-const db=await connectDatabase();
-if(process.env.DEMO_DB==='1')await setup(db,process.env.SEED_PASSWORD||'Welcome@123');
-const app=createApp(db,{production:process.env.NODE_ENV==='production'});
-app.use(express.static(resolve('dist')));
-app.get('/{*path}',(req,res)=>res.sendFile(resolve('dist/index.html')));
-app.listen(Number(process.env.PORT)||3001,'127.0.0.1',()=>console.log('Storefront API: http://localhost:3001'));
+import { resolve } from "node:path";
+import express from "express";
+import { connectDatabase } from "./db.js";
+import { createApp } from "./app.js";
+import { setup } from "./setup.js";
+const db = await connectDatabase();
+if (process.env.DEMO_DB === "1")
+  await setup(db, process.env.SEED_PASSWORD || "Welcome@123");
+const app = createApp(db, {
+  production: process.env.NODE_ENV === "production",
+});
+app.use(express.static(resolve("dist")));
+app.get("/{*path}", (req, res) => res.sendFile(resolve("dist/index.html")));
+app.listen(Number(process.env.PORT) || 3001, "127.0.0.1", () =>
+  console.log("Storefront API: http://localhost:3001"),
+);
