@@ -2,6 +2,10 @@
 
 A complete React + Express + PostgreSQL store-rating application. Includes one login system and server-enforced Administrator, Normal User, and Store Owner roles.
 
+**Live application:** https://store-rating-challenge.vercel.app
+
+The hosted application uses Neon PostgreSQL. Hosted demo accounts use a separately generated password, saved locally for the project owner in the ignored `.env.hosted-demo` file. The `Welcome@123` password below is for the local demo only.
+
 ## Quick start on Windows (no database installation)
 
 Requires Node.js 22.12+ or 24. Run in PowerShell:
